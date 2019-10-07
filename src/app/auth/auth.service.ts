@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
+
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import * as fb from 'firebase';
+import { User } from './user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private afAuth: AngularFireAuth, private router: Router) {
+  constructor(private afAuth: AngularFireAuth, private afDB: AngularFirestore, private router: Router) {
   }
 
   initAuthListener() {
@@ -23,6 +27,18 @@ export class AuthService {
     this.afAuth.auth.createUserWithEmailAndPassword(email, password)
       .then(resp => {
         // console.log(resp);
+        const user: User = {
+          uid: resp.user.uid,
+          nombre,
+          email: resp.user.email
+        };
+
+        this.afDB.doc(`${user.uid}/usuario`)
+          .set(user)
+          .then(() => {
+            this.router.navigate(['/']);
+          })
+          ;
         this.router.navigate(['/']);
       })
       .catch(error => {
