@@ -10,14 +10,19 @@ const estadoInicial: State = {
   user: null
 };
 
-export function authReducer(state = estadoInicial, action: authAct.acciones): State {
+export function reducer(state = estadoInicial, action: authAct.acciones): State {
   switch (action.type) {
     case authAct.SET_USER:
       return {
-        user: {... action.user}
+        user: { ...action.user }
+      };
+
+    case authAct.UNSET_USER:
+      return {
+        user: null
       };
 
     default:
       return state;
   }
- }
+}

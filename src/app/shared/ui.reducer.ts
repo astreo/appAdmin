@@ -9,13 +9,13 @@ const initState: State = {
   isLoading: false
 };
 
-export function uiReducer(state = initState, action: uiAct.Acciones): State {
+export function reducer(state = initState, action: uiAct.Acciones): State {
   switch (action.type) {
 
-    case uiAct.ACTIVAR_LOGIN:
+    case uiAct.ACTIVAR_LOADING:
       return { isLoading: true };
 
-    case uiAct.DESACTIVAR_LOGIN:
+    case uiAct.DESACTIVAR_LOADING:
       return { isLoading: false };
 
     default:
